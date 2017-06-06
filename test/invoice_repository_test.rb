@@ -58,4 +58,13 @@ class InvoiceRepositoryTest < Minitest::Test
     assert_equal 7, actual_2.length
     assert_equal 4, actual_3.length
   end
+
+  def test_find_all_by_date_works
+    invr = InvoiceRepository.new(@files)
+    date = Time.parse('2009-12-09').strftime('%Y%m%d')
+    actual = invr.find_all_by_date(date)
+
+
+    assert_equal 3, actual.length
+  end
 end

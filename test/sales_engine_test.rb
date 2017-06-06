@@ -116,4 +116,13 @@ class SalesEngineTest < MiniTest::Test
 
     assert_equal expected, actual
   end
+
+  def test_returns_invoices_for_date
+    se = SalesEngine.from_csv(@files_2)
+    date = Time.parse('2009-12-09').strftime('%Y%m%d')
+    actual = se.invoices_by_date(date)
+    expected = [se.invoices.all[2], se.invoices.all[10], se.invoices.all[11]]
+
+    assert_equal expected, actual
+  end
 end
