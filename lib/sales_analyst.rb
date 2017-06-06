@@ -32,10 +32,13 @@ class SalesAnalyst
 
   def merchants_with_high_item_count
     mr = se.merchants.all
-    one_deviation = average_items_per_merchant + average_items_per_merchant_standard_deviation
     mr.find_all do |merchant|
-      merchant.items.length >= one_deviation
+      merchant.items.length >= self.one_deviation
     end
+  end
+
+  def one_deviation
+    average_items_per_merchant + average_items_per_merchant_standard_deviation
   end
 
   def average_item_price_for_merchant(merchant_id)
@@ -59,10 +62,13 @@ class SalesAnalyst
   def golden_items
     ir = se.items.all
     unit_prices = ir.map {|item| item.unit_price}
-    two_deviations = (average_average_price_per_merchant) + (standard_deviation(unit_prices) * 2)
     ir.find_all do |item|
-      item.unit_price >= two_deviations
+      item.unit_price >= self.two_price_deviations(unit_prices)
     end
+  end
+
+  def two_price_deviations(unit_prices)
+    average_average_price_per_merchant + (standard_deviation(unit_prices) * 2)
   end
 
   def average_invoices_per_merchant
@@ -89,26 +95,42 @@ class SalesAnalyst
   end
 
   def top_merchants_by_invoice_count
-    merchant_invoices = create_invoices_per_merchant_hash
+    merch_inv = create_invoices_per_merchant_hash
     mr = se.merchants.all
-    two_deviations = (average_invoices_per_merchant) + (average_invoices_per_merchant_standard_deviation * 2)
-    mr.select {|merchant| merchant_invoices[merchant.id] >= two_deviations}
+    mr.select {|merchant| merch_inv[merchant.id] >= two_invoice_deviations}
+  end
+
+  def two_invoice_deviations
+    (average_invoices_per_merchant +
+    (average_invoices_per_merchant_standard_deviation * 2))
   end
 
   def bottom_merchants_by_invoice_count
     merchant_invoices = create_invoices_per_merchant_hash
     mr = se.merchants.all
-    two_deviations = (average_invoices_per_merchant) - (average_invoices_per_merchant_standard_deviation * 2)
+    two_deviations = ((average_invoices_per_merchant) -
+                      (average_invoices_per_merchant_standard_deviation * 2))
     mr.select {|merchant| merchant_invoices[merchant.id] <= two_deviations}
   end
 
   def top_days_by_invoice_count
     invoices_per_day = create_invoices_per_day_hash
-    average_invoices_per_day = (se.invoices.all.length)/7
-    average_invoices_per_day_standard_deviation = standard_deviation(invoices_per_day.values)
-    one_deviation = (average_invoices_per_day) + (average_invoices_per_day_standard_deviation)
+    values = invoices_per_day.values
     days = invoices_per_day.keys
-    days.select { |day| invoices_per_day[day] > one_deviation }
+    days.select { |day| invoices_per_day[day] > one_invoice_deviation(values) }
+  end
+
+  def average_invoices_per_day
+    (se.invoices.all.length)/7
+  end
+
+  def average_invoices_per_day_standard_deviation(values)
+    standard_deviation(values)
+  end
+
+  def one_invoice_deviation(values)
+    (average_invoices_per_day +
+    average_invoices_per_day_standard_deviation(values))
   end
 
   def create_invoices_per_day_hash
@@ -141,6 +163,17 @@ class SalesAnalyst
     invoice_ids = all_inv.map  {|invoice| invoice.id }
     all_items = invoice_ids.flat_map {|id| se.invoice_items_by_invoice_id(id)}
     all_items.reduce(0) {|acc, item| acc+= item.quantity * item.unit_price}
+  end
+
+  def top_revenue_earners(x = 20)
+
+  end
+
+  def revenue_by_merchant(merchant_id)
+    invoices = se.invoices_by_merchant_id(merchant_id)
+    totals = invoices.map {|invoice| se.total_by_invoice_id(invoice.id)}
+    paid_totals = totals.reject {|invoice| invoice.nil?}
+    paid_totals.reduce(0) {|acc, amount| acc += amount}
   end
 
   def standard_deviation(values)

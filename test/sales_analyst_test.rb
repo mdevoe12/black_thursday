@@ -164,4 +164,18 @@ class SalesAnalystTest < MiniTest::Test
     assert_equal 21067.77, actual_1
     assert_equal 0, actual_2
   end
+
+  def test_revenue_by_merchant_returns_dollars
+    se = SalesEngine.from_csv(@files3)
+    sa = SalesAnalyst.new(se)
+    actual = sa.revenue_by_merchant(12334753)
+    expected = 1872.74
+
+    assert_equal expected, actual
+  end
+
+  # def test_returns_top_revenue_earners_default_twenty
+  #
+  #
+  # end
 end

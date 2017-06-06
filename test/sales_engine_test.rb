@@ -125,4 +125,11 @@ class SalesEngineTest < MiniTest::Test
 
     assert_equal expected, actual
   end
+
+  def test_total_by_invoice_id
+    se = SalesEngine.from_csv(@files_2)
+    actual = se.total_by_invoice_id(2)
+
+    assert_equal 1872.74, actual
+  end
 end
