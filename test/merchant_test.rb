@@ -22,14 +22,17 @@ class MerchantTest < MiniTest::Test
   end
 
   def test_if_create_class
-    m = Merchant.new
+    m = Merchant.new({'name'       =>  "Turing School",
+                      'id'         =>  '201',
+                      'created_at' => '2010-07-15'})
 
     assert_instance_of Merchant, m
   end
 
   def test_default_attributes
-    m = Merchant.new({'name'  =>  "Turing School",
-                      'id'    =>  201})
+    m = Merchant.new({'name'       =>  "Turing School",
+                      'id'         =>  '201',
+                      'created_at' => '2010-07-15'})
 
     assert m.name
     assert_equal "Turing School", m.name
@@ -62,5 +65,4 @@ class MerchantTest < MiniTest::Test
     assert_equal expected, actual
 
   end
-
 end

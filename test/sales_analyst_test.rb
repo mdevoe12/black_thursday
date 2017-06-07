@@ -54,8 +54,8 @@ class SalesAnalystTest < MiniTest::Test
     se = SalesEngine.from_csv(@files)
     sa = SalesAnalyst.new(se)
 
-    actual_1 = sa.create_items_per_merchant_hash.keys
-    actual_2 = sa.create_items_per_merchant_hash.values
+    actual_1 = sa.create_items_length_per_merchant_hash.keys
+    actual_2 = sa.create_items_length_per_merchant_hash.values
 
     assert_equal [12334105, 12334112, 12334113, 12334115, 12334123], actual_1
     assert_equal [1, 0, 0, 0, 0], actual_2
@@ -65,7 +65,7 @@ class SalesAnalystTest < MiniTest::Test
     se = SalesEngine.from_csv(@files)
     sa = SalesAnalyst.new(se)
 
-    sa.stubs(:create_items_per_merchant_hash).returns({0 => 3, 1 => 4, 2 => 5})
+    sa.stubs(:create_items_length_per_merchant_hash).returns({0 => 3, 1 => 4, 2 => 5})
 
     actual = sa.average_items_per_merchant_standard_deviation
 
@@ -213,5 +213,13 @@ class SalesAnalystTest < MiniTest::Test
 
     assert_equal 4, actual.length
     assert_equal mr[1..4], actual
+  end
+
+  def test_merchants_with_only_one_item_in_month_returns_correct_merchants
+    se = SalesEngine.from_csv(@files3)
+    sa = SalesAnalyst.new(se)
+    actual = sa.merchants_with_only_one_item_registered_in_month('February')
+
+    assert_equal 1, actual.length
   end
 end

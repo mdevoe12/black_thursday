@@ -15,7 +15,7 @@ class SalesAnalyst
   end
 
   def average_items_per_merchant_standard_deviation
-    values = create_items_per_merchant_hash.values
+    values = create_items_length_per_merchant_hash.values
     standard_deviation(values)
   end
 
@@ -178,12 +178,15 @@ class SalesAnalyst
   end
 
   def merchants_with_only_one_item
-    merch_items = create_items_per_merchant_hash
+    merch_items = create_items_length_per_merchant_hash
     mr = se.merchants.all
     mr.select {|merch| merch_items[merch.id] == 1}
   end
 
-  
+  def merchants_with_only_one_item_registered_in_month(month)
+    merchants = merchants_with_only_one_item
+    merchants.select {|merch| merch.created_at.strftime('%B') == month}
+  end
 
   def standard_deviation(values)
     mean = values.reduce(:+)/values.length.to_f
@@ -191,7 +194,7 @@ class SalesAnalyst
     Math.sqrt(mean_squared / (values.length - 1)).round(2)
   end
 
-  def create_items_per_merchant_hash
+  def create_items_length_per_merchant_hash
     mr = se.merchants.all
     mr.reduce({}) do |merchant_items, merchant|
       items = se.items_by_merchant_id(merchant.id)
@@ -199,4 +202,15 @@ class SalesAnalyst
       merchant_items
     end
   end
+
+  def create_items_per_merchant_hash
+    mr = se.merchants.all
+    mr.reduce({}) do |merchant_items, merchant|
+      items = se.items_by_merchant_id(merchant.id)
+      merchant_items[merchant.id] = items
+      merchant_items
+    end
+  end
+
+  
 end

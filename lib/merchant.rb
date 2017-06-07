@@ -3,12 +3,14 @@ require 'pry'
 class Merchant
 
   attr_reader :name,
-              :id
+              :id,
+              :created_at
 
   def initialize(params = {}, parent = nil)
-    @parent = parent
-    @name = params['name']
-    @id   = params['id'].to_i
+    @parent     = parent
+    @name       = params['name']
+    @id         = params['id'].to_i
+    @created_at = Time.parse(params["created_at"])
   end
 
   def items
