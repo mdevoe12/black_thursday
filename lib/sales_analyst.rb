@@ -166,7 +166,20 @@ class SalesAnalyst
   end
 
   def top_revenue_earners(x = 20)
+    revenue_per_merchant = creates_revenue_per_merchant_hash
+    ascending_revenue = revenue_per_merchant.sort_by {|_k,v| v}.flatten
+    merchants = ascending_revenue.select.with_index {|item, idx| idx.even? }
+    descending_revenue = merchants.reverse
+    descending_revenue[0..(x - 1)]
+  end
 
+  def creates_revenue_per_merchant_hash
+    mr = se.merchants.all
+    revenue_per_merchant = {}
+    mr.each do |merchant|
+      revenue_per_merchant[merchant] = revenue_by_merchant(merchant.id)
+    end
+    revenue_per_merchant
   end
 
   def revenue_by_merchant(merchant_id)

@@ -26,6 +26,12 @@ class SalesAnalystTest < MiniTest::Test
               :invoice_items => './test/data/invoice_items_test.csv',
               :transactions  => './test/data/transactions_test.csv',
               :customers     => './test/data/customers_test.csv'}
+    @files4 = {:items => './data/items.csv',
+              :merchants => './data/merchants.csv',
+              :invoices => './data/invoices.csv',
+              :invoice_items => './data/invoice_items.csv',
+              :transactions  => './data/transactions.csv',
+              :customers     => './data/customers.csv'}
 
   end
 
@@ -174,8 +180,20 @@ class SalesAnalystTest < MiniTest::Test
     assert_equal expected, actual
   end
 
-  # def test_returns_top_revenue_earners_default_twenty
-  #
-  #
-  # end
+  def test_returns_top_revenue_earners_default_twenty
+    se = SalesEngine.from_csv(@files4)
+    sa = SalesAnalyst.new(se)
+    actual = sa.top_revenue_earners
+
+    assert_equal 20, actual.length
+  end
+
+  def test_returns_top_revenue_earners_other_than_default
+    se = SalesEngine.from_csv(@files4)
+    sa = SalesAnalyst.new(se)
+    actual = sa.top_revenue_earners(5)
+
+    assert_equal 5, actual.length
+  end
+
 end

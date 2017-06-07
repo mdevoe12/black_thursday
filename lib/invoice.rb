@@ -35,7 +35,7 @@ class Invoice
   def is_paid_in_full?
     transactions = self.transactions
     return false if transactions.empty?
-    transactions.all? {|transaction| transaction.result == 'success'}
+    transactions.any? {|transaction| transaction.result == 'success'}
   end
 
   def total
