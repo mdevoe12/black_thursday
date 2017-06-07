@@ -10,7 +10,6 @@ class SalesAnalyst
   def average_items_per_merchant
     mr = se.merchants.all
     ir = se.items.all
-
     average = (ir.length.to_f)/(mr.length)
     average.round(2)
   end
@@ -50,11 +49,9 @@ class SalesAnalyst
 
   def average_average_price_per_merchant
     mr = se.merchants.all
-
     averages = mr.reduce(0) do |acc, merchant|
       acc += average_item_price_for_merchant(merchant.id)
     end
-
     average_average = averages/mr.length
     BigDecimal.new(average_average).round(2)
   end
@@ -187,6 +184,20 @@ class SalesAnalyst
     totals = invoices.map {|invoice| se.total_by_invoice_id(invoice.id)}
     paid_totals = totals.reject {|invoice| invoice.nil?}
     paid_totals.reduce(0) {|acc, amount| acc += amount}
+  end
+
+  def merchants_ranked_by_revenue 
+    mr = se.merchants.all
+    top_revenue_earners(mr.length)
+  end
+
+  def merchants_with_pending_invoices
+    invr = se.invoices
+    invoices = invr.all
+    pending = invoices.reject {|invoice| invoice.is_paid_in_full?}
+    mids = pending.map {|invoice| invoice.merchant_id}.uniq
+      # binding.pry
+    mids.map {|id| se.merchant_by_merchant_id(id)}
   end
 
   def standard_deviation(values)
