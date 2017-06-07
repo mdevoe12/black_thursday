@@ -158,7 +158,7 @@ class SalesAnalystTest < MiniTest::Test
     sa = SalesAnalyst.new(se)
     actual = sa.top_days_by_invoice_count
 
-    assert_equal ["Wednesday", "Friday", "Saturday"], actual
+    assert_equal ["Saturday", "Friday", "Wednesday", "Monday"], actual
   end
 
   def test_returns_revenue_by_date

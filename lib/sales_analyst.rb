@@ -20,13 +20,12 @@ class SalesAnalyst
   end
 
   def create_items_per_merchant_hash
-    merchant_items = {}
     mr = se.merchants.all
-    mr.each do |merchant|
+    mr.reduce({}) do |merchant_items, merchant|
       items = se.items_by_merchant_id(merchant.id)
       merchant_items[merchant.id] = items.length
+      merchant_items
     end
-    merchant_items
   end
 
   def merchants_with_high_item_count
@@ -81,13 +80,12 @@ class SalesAnalyst
   end
 
   def create_invoices_per_merchant_hash
-    merchant_invoices = {}
     mr = se.merchants.all
-    mr.each do |merchant|
+    mr.reduce({}) do |merchant_invoices, merchant|
       invoices = se.invoices_by_merchant_id(merchant.id)
       merchant_invoices[merchant.id] = invoices.length
+      merchant_invoices
     end
-    merchant_invoices
   end
 
   def top_merchants_by_invoice_count
@@ -116,7 +114,7 @@ class SalesAnalyst
     invoices_per_day = create_invoices_per_day_hash
     values = invoices_per_day.values
     days = invoices_per_day.keys
-    days.select { |day| invoices_per_day[day] > one_invoice_deviation(values) }
+    days.select {|day| invoices_per_day[day] > one_invoice_deviation(values)}
   end
 
   def average_invoices_per_day
@@ -128,20 +126,13 @@ class SalesAnalyst
   end
 
   def create_invoices_per_day_hash
-    days = {"Monday" => 0,
-            "Tuesday" => 0,
-            "Wednesday" => 0,
-            "Thursday" => 0,
-            "Friday" => 0,
-            "Saturday" => 0,
-            "Sunday" => 0}
     invr = se.invoices.all
-    invr.each do |invoice|
-      if days.keys.include? invoice.created_at.strftime("%A")
-      days[invoice.created_at.strftime("%A")] += 1
-      end
+    invr.reduce({}) do |days, invoice|
+      created_day = invoice.created_at.strftime("%A")
+      days[created_day] = 0 unless days[created_day]
+      days[created_day] += 1
+      days
     end
-    days
   end
 
   def invoice_status(status)
@@ -169,11 +160,10 @@ class SalesAnalyst
 
   def creates_revenue_per_merchant_hash
     mr = se.merchants.all
-    revenue_per_merchant = {}
-    mr.each do |merchant|
+    mr.reduce({}) do |revenue_per_merchant, merchant|
       revenue_per_merchant[merchant] = revenue_by_merchant(merchant.id)
+      revenue_per_merchant
     end
-    revenue_per_merchant
   end
 
   def revenue_by_merchant(merchant_id)
@@ -193,7 +183,6 @@ class SalesAnalyst
     invoices = invr.all
     pending = invoices.reject {|invoice| invoice.is_paid_in_full?}
     mids = pending.map {|invoice| invoice.merchant_id}.uniq
-      # binding.pry
     mids.map {|id| se.merchant_by_merchant_id(id)}
   end
 
