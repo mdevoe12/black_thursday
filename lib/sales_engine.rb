@@ -65,21 +65,17 @@ class SalesEngine
 
   def customers_by_merchant_id(merchant_id)
     invoices = invoices_by_merchant_id(merchant_id)
-    customer_ids = invoices.map {|invoice| invoice = invoice.customer_id}
+    customer_ids = invoices.map {|invoice| invoice.customer_id}
     uniq_cust_ids = customer_ids.uniq
     uniq_cust_ids.map {|id| customer_by_customer_id(id)}
   end
 
   def merchants_by_customer_id(customer_id)
     invoices = @invoices.find_all_by_customer_id(customer_id)
-    merchant_ids = invoices.map {|invoice| invoice = invoice.merchant_id}
+    merchant_ids = invoices.map {|invoice| invoice.merchant_id}
     uniq_mids = merchant_ids.uniq
     uniq_mids.map {|mid| merchant_by_merchant_id(mid)}
   end
-
-  # def transactions_by_date(date)
-  #   @transactions.find_all_by_date(date)
-  # end
 
   def invoices_by_date(date)
     @invoices.find_all_by_date(date)

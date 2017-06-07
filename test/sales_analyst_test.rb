@@ -197,11 +197,11 @@ class SalesAnalystTest < MiniTest::Test
   #   assert_equal 5, actual.length
   # end
 
-  def test_merchants_with_pedning_invoice_returns_correct_number
+  def test_merchants_with_pending_invoice_returns_correct_number
     se = SalesEngine.from_csv(@files3)
     sa = SalesAnalyst.new(se)
     actual = sa.merchants_with_pending_invoices
 
-    assert_equal 6, actual.length
+    assert_equal 8, actual.length
   end
 end

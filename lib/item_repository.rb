@@ -1,11 +1,9 @@
 require_relative './item'
-require 'bigdecimal'
 require 'csv'
 
 class ItemRepository
 
   attr_reader :all
-
   def initialize(file_path, parent = nil)
     @parent = parent
     @all = []
@@ -31,15 +29,13 @@ class ItemRepository
   end
 
   def find_all_with_description(description)
-    downcased = description.downcase
     @all.find_all do |item|
-      item.description.downcase.include? downcased
+      item.description.downcase.include? description.downcase
     end
   end
 
   def find_all_by_price(unit_price)
     @all.find_all do |item|
-      # binding.pry
       item.unit_price == unit_price
     end
   end
@@ -63,7 +59,7 @@ class ItemRepository
   def find_items_by_invoice_id(invoice_items)
     items = []
     invoice_items.each do |invoice_item|
-      @all.find_all do |item|
+      @all.each do |item|
         items << item if item.id == invoice_item.item_id
       end
     end

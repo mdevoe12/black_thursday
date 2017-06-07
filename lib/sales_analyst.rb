@@ -32,11 +32,11 @@ class SalesAnalyst
   def merchants_with_high_item_count
     mr = se.merchants.all
     mr.find_all do |merchant|
-      merchant.items.length >= self.one_deviation
+      merchant.items.length >= self.one_item_deviation
     end
   end
 
-  def one_deviation
+  def one_item_deviation
     average_items_per_merchant + average_items_per_merchant_standard_deviation
   end
 
@@ -49,10 +49,10 @@ class SalesAnalyst
 
   def average_average_price_per_merchant
     mr = se.merchants.all
-    averages = mr.reduce(0) do |acc, merchant|
+    sum = mr.reduce(0) do |acc, merchant|
       acc += average_item_price_for_merchant(merchant.id)
     end
-    average_average = averages/mr.length
+    average_average = sum/mr.length
     BigDecimal.new(average_average).round(2)
   end
 
@@ -71,7 +71,6 @@ class SalesAnalyst
   def average_invoices_per_merchant
     mr = se.merchants.all
     invr = se.invoices.all
-
     average = (invr.length.to_f)/(mr.length)
     average.round(2)
   end
@@ -94,20 +93,23 @@ class SalesAnalyst
   def top_merchants_by_invoice_count
     merch_inv = create_invoices_per_merchant_hash
     mr = se.merchants.all
-    mr.select {|merchant| merch_inv[merchant.id] >= two_invoice_deviations}
+    mr.select {|merch| merch_inv[merch.id] >= two_more_invoice_deviations}
   end
 
-  def two_invoice_deviations
+  def two_more_invoice_deviations
     (average_invoices_per_merchant +
     (average_invoices_per_merchant_standard_deviation * 2))
   end
 
   def bottom_merchants_by_invoice_count
-    merchant_invoices = create_invoices_per_merchant_hash
+    merch_inv = create_invoices_per_merchant_hash
     mr = se.merchants.all
-    two_deviations = ((average_invoices_per_merchant) -
-                      (average_invoices_per_merchant_standard_deviation * 2))
-    mr.select {|merchant| merchant_invoices[merchant.id] <= two_deviations}
+    mr.select {|merch| merch_inv[merch.id] <= two_less_invoice_deviations}
+  end
+
+  def two_less_invoice_deviations
+    (average_invoices_per_merchant -
+    (average_invoices_per_merchant_standard_deviation * 2))
   end
 
   def top_days_by_invoice_count
@@ -121,13 +123,8 @@ class SalesAnalyst
     (se.invoices.all.length)/7
   end
 
-  def average_invoices_per_day_standard_deviation(values)
-    standard_deviation(values)
-  end
-
   def one_invoice_deviation(values)
-    (average_invoices_per_day +
-    average_invoices_per_day_standard_deviation(values))
+    (average_invoices_per_day + standard_deviation(values))
   end
 
   def create_invoices_per_day_hash
@@ -186,7 +183,7 @@ class SalesAnalyst
     paid_totals.reduce(0) {|acc, amount| acc += amount}
   end
 
-  def merchants_ranked_by_revenue 
+  def merchants_ranked_by_revenue
     mr = se.merchants.all
     top_revenue_earners(mr.length)
   end
