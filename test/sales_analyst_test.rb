@@ -204,4 +204,14 @@ class SalesAnalystTest < MiniTest::Test
 
     assert_equal 8, actual.length
   end
+
+  def test_merchants_with_only_one_item_returns_correct_merchants
+    se = SalesEngine.from_csv(@files3)
+    sa = SalesAnalyst.new(se)
+    mr = se.merchants.all
+    actual = sa.merchants_with_only_one_item
+
+    assert_equal 4, actual.length
+    assert_equal mr[1..4], actual
+  end
 end

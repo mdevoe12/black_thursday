@@ -19,15 +19,6 @@ class SalesAnalyst
     standard_deviation(values)
   end
 
-  def create_items_per_merchant_hash
-    mr = se.merchants.all
-    mr.reduce({}) do |merchant_items, merchant|
-      items = se.items_by_merchant_id(merchant.id)
-      merchant_items[merchant.id] = items.length
-      merchant_items
-    end
-  end
-
   def merchants_with_high_item_count
     mr = se.merchants.all
     mr.find_all do |merchant|
@@ -186,9 +177,26 @@ class SalesAnalyst
     mids.map {|id| se.merchant_by_merchant_id(id)}
   end
 
+  def merchants_with_only_one_item
+    merch_items = create_items_per_merchant_hash
+    mr = se.merchants.all
+    mr.select {|merch| merch_items[merch.id] == 1}
+  end
+
+  
+
   def standard_deviation(values)
     mean = values.reduce(:+)/values.length.to_f
     mean_squared = values.reduce(0) { |acc, num| acc += ((num - mean)**2) }
     Math.sqrt(mean_squared / (values.length - 1)).round(2)
+  end
+
+  def create_items_per_merchant_hash
+    mr = se.merchants.all
+    mr.reduce({}) do |merchant_items, merchant|
+      items = se.items_by_merchant_id(merchant.id)
+      merchant_items[merchant.id] = items.length
+      merchant_items
+    end
   end
 end
