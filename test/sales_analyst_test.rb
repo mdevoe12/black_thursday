@@ -230,4 +230,14 @@ class SalesAnalystTest < MiniTest::Test
 
     assert_equal 1, actual.length
   end
+
+  def test_best_item_for_merchant
+    se = SalesEngine.from_csv(@files4)
+    sa = SalesAnalyst.new(se)
+    actual = sa.best_item_for_merchant(12334189)
+
+    assert_equal 1, actual.length
+  end
+
+
 end
