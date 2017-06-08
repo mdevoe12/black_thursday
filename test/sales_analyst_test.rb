@@ -181,21 +181,21 @@ class SalesAnalystTest < MiniTest::Test
     assert_equal expected, actual
   end
 
-  # def test_returns_top_revenue_earners_default_twenty
-  #   se = SalesEngine.from_csv(@files4)
-  #   sa = SalesAnalyst.new(se)
-  #   actual = sa.top_revenue_earners
-  #
-  #   assert_equal 20, actual.length
-  # end
+  def test_returns_top_revenue_earners_default_twenty
+    se = SalesEngine.from_csv(@files4)
+    sa = SalesAnalyst.new(se)
+    actual = sa.top_revenue_earners
 
-  # def test_returns_top_revenue_earners_other_than_default
-  #   se = SalesEngine.from_csv(@files4)
-  #   sa = SalesAnalyst.new(se)
-  #   actual = sa.top_revenue_earners(5)
-  #
-  #   assert_equal 5, actual.length
-  # end
+    assert_equal 20, actual.length
+  end
+
+  def test_returns_top_revenue_earners_other_than_default
+    se = SalesEngine.from_csv(@files4)
+    sa = SalesAnalyst.new(se)
+    actual = sa.top_revenue_earners(5)
+
+    assert_equal 5, actual.length
+  end
 
   def test_merchants_with_pending_invoice_returns_correct_number
     se = SalesEngine.from_csv(@files3)
@@ -236,7 +236,7 @@ class SalesAnalystTest < MiniTest::Test
     sa = SalesAnalyst.new(se)
     actual = sa.best_item_for_merchant(12334189)
 
-    assert_equal 1, actual.length
+    assert_equal Item, actual.class
   end
 
 
