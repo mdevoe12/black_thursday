@@ -1,4 +1,3 @@
-require 'pry'
 require 'time'
 require_relative 'test_helper'
 require_relative '../lib/sales_analyst'

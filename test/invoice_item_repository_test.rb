@@ -1,4 +1,3 @@
-require 'pry'
 require 'csv'
 require_relative 'test_helper'
 require_relative '../lib/invoice_item_repository'

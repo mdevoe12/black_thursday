@@ -221,17 +221,21 @@ class SalesAnalyst
   end
 
   def create_item_ids_quantity_hash(merchant_id)
-    invoices = se.invoices_by_merchant_id(merchant_id)
-    success = invoices.select {|inv| inv.is_paid_in_full?}
-    inv_items = success.reduce([]) do |acc, invoice|
-      acc << se.invoice_items_by_invoice_id(invoice.id)
-    end.flatten
+    inv_items = data_to_item_quantity_hash(merchant_id)
     item_ids = inv_items.reduce({}) do |items, inv_item|
       items[inv_item.item_id] = 0 if items[inv_item.item_id].nil?
       items[inv_item.item_id] += inv_item.quantity
       items
     end
     item_ids
+  end
+
+  def data_to_item_quantity_hash(merchant_id)
+    invoices = se.invoices_by_merchant_id(merchant_id)
+    success = invoices.select {|inv| inv.is_paid_in_full?}
+    success.reduce([]) do |acc, invoice|
+      acc << se.invoice_items_by_invoice_id(invoice.id)
+    end.flatten
   end
 
   def best_item_for_merchant(merchant_id)
@@ -242,11 +246,7 @@ class SalesAnalyst
   end
 
   def create_item_ids_revenue_hash(merchant_id)
-    invoices = se.invoices_by_merchant_id(merchant_id)
-    success = invoices.select {|inv| inv.is_paid_in_full?}
-    inv_items = success.reduce([]) do |acc, invoice|
-      acc << se.invoice_items_by_invoice_id(invoice.id)
-    end.flatten
+    inv_items = data_to_item_revenue_hash(merchant_id)
     item_ids = inv_items.reduce({}) do |items, inv_item|
       items[inv_item.item_id] = 0 if items[inv_item.item_id].nil?
       items[inv_item.item_id] += (inv_item.quantity * inv_item.unit_price)
@@ -255,4 +255,11 @@ class SalesAnalyst
     item_ids
   end
 
+  def data_to_item_revenue_hash(merchant_id)
+    invoices = se.invoices_by_merchant_id(merchant_id)
+    success = invoices.select {|inv| inv.is_paid_in_full?}
+    success.reduce([]) do |acc, invoice|
+      acc << se.invoice_items_by_invoice_id(invoice.id)
+    end.flatten
+  end
 end

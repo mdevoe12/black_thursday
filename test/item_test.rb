@@ -1,5 +1,3 @@
-require 'pry'
-
 require 'bigdecimal'
 require 'time'
 require_relative './test_helper'

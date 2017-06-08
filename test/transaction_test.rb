@@ -1,4 +1,3 @@
-
 require 'time'
 require_relative 'test_helper'
 require_relative '../lib/transaction'
@@ -15,13 +14,12 @@ class TransactionTest < Minitest::Test
                           "created_at"  => '1993-09-29 11:56:40 UTC',
                           "updated_at"  => '1993-09-29 11:56:40 UTC'
                          })
-    @files = {:items => './test/data/items_test.csv',
-              :merchants => './test/data/merchants_test_3.csv',
-              :invoices => './test/data/invoices_test.csv',
+    @files = {:items         => './test/data/items_test.csv',
+              :merchants     => './test/data/merchants_test_3.csv',
+              :invoices      => './test/data/invoices_test.csv',
               :invoice_items => './test/data/invoice_items_test.csv',
               :transactions  => './test/data/transactions_test.csv',
               :customers     => './test/data/customers_test.csv'}
-
   end
 
   def test_if_class_creates

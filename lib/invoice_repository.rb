@@ -1,7 +1,5 @@
-require 'pry'
 require 'csv'
 require_relative 'invoice'
-
 
 class InvoiceRepository
 
