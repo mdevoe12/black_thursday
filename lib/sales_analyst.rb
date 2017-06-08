@@ -223,7 +223,7 @@ class SalesAnalyst
   def create_item_ids_quantity_hash(merchant_id)
     invoices = se.invoices_by_merchant_id(merchant_id)
     success = invoices.select {|inv| inv.is_paid_in_full?}
-    inv_items = success.reduce(0) {|acc, invoice| se.invoice_items_by_invoice_id(invoice.id)}
+    inv_items = success.reduce([]) {|acc, invoice| acc << se.invoice_items_by_invoice_id(invoice.id)}.flatten
     item_ids = inv_items.reduce({}) do |items, inv_item|
       items[inv_item.item_id] = 0 if items[inv_item.item_id].nil?
       items[inv_item.item_id] += inv_item.quantity
