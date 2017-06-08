@@ -63,7 +63,6 @@ class InvoiceRepositoryTest < Minitest::Test
     date = Time.parse('2009-12-09').strftime('%Y%m%d')
     actual = invr.find_all_by_date(date)
 
-
     assert_equal 3, actual.length
   end
 end

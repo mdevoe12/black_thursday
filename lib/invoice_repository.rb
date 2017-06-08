@@ -7,7 +7,7 @@ class InvoiceRepository
 
   def initialize(file_path, parent = nil)
     @parent = parent
-    @all = []
+    @all    = []
     populate_invoices(file_path)
   end
 
@@ -75,5 +75,4 @@ class InvoiceRepository
   def inspect
    "#<#{self.class} #{@all.size} rows>"
   end
-
 end

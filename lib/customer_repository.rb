@@ -7,7 +7,7 @@ class CustomerRepository
 
   def initialize(file_path, parent = nil)
     @parent = parent
-    @all = []
+    @all    = []
     populate_customers(file_path)
   end
 
@@ -42,5 +42,4 @@ class CustomerRepository
   def inspect
    "#<#{self.class} #{@all.size} rows>"
   end
-
 end

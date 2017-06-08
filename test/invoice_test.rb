@@ -5,16 +5,16 @@ require_relative '../lib/sales_engine'
 class InvoiceTest < Minitest::Test
 
   def setup
-    @i1 = Invoice.new({"id"        => '1',
-                  "customer_id" => '34',
-                  "merchant_id" => '11',
-                  "status"      => "pending",
-                  "created_at"  => '1993-09-29 11:56:40 UTC',
-                  "updated_at"  => '1993-09-29 11:56:40 UTC'
-                 })
-    @files = {:items => './test/data/items_test.csv',
-              :merchants => './test/data/merchants_test_3.csv',
-              :invoices => './test/data/invoices_test.csv',
+    @i1 = Invoice.new({"id"         => '1',
+                      "customer_id" => '34',
+                      "merchant_id" => '11',
+                      "status"      => "pending",
+                      "created_at"  => '1993-09-29 11:56:40 UTC',
+                      "updated_at"  => '1993-09-29 11:56:40 UTC'
+                     })
+    @files = {:items         => './test/data/items_test.csv',
+              :merchants     => './test/data/merchants_test_3.csv',
+              :invoices      => './test/data/invoices_test.csv',
               :invoice_items => './test/data/invoice_items_test.csv',
               :transactions  => './test/data/transactions_test.csv',
               :customers     => './test/data/customers_test.csv'}

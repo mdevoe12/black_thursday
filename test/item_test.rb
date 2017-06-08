@@ -15,23 +15,23 @@ class ItemTest < MiniTest::Test
               :transactions  => './test/data/transactions_test.csv',
               :customers     => './test/data/customers_test.csv'}
 
-    @i1 = Item.new({"id"       => '1',
-                  "merchant_id" => '11',
-                  "name"        => "Pencil",
-                  "description" => "You can use it to write things",
-                  "unit_price"  => '1050',
-                  "created_at"  => '1993-09-29 11:56:40 UTC',
-                  "updated_at"  => '1993-09-29 11:56:40 UTC'
-                 })
+    @i1 = Item.new({"id"          => '1',
+                    "merchant_id" => '11',
+                    "name"        => "Pencil",
+                    "description" => "You can use it to write things",
+                    "unit_price"  => '1050',
+                    "created_at"  => '1993-09-29 11:56:40 UTC',
+                    "updated_at"  => '1993-09-29 11:56:40 UTC'
+                   })
 
-    @i2 = Item.new({"id"         => '2',
+    @i2 = Item.new({"id"        => '2',
                   "merchant_id" => '12',
                   "name"        => "Pen",
                   "description" => "You can use it to write things",
                   "unit_price"  => '1199',
                   "created_at"  => '1993-09-29 11:56:40 UTC',
                   "updated_at"  => '1993-09-29 11:56:40 UTC'
-                 })
+                  })
   end
 
   def test_if_create_class

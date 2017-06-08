@@ -6,7 +6,7 @@ class ItemRepository
   attr_reader :all
   def initialize(file_path, parent = nil)
     @parent = parent
-    @all = []
+    @all    = []
     populate_items(file_path)
   end
 

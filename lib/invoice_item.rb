@@ -22,9 +22,7 @@ class InvoiceItem
     @updated_at = Time.parse(params["updated_at"])
   end
 
-
   def unit_price_to_dollars(price)
     price.to_f
   end
-
 end

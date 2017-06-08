@@ -11,9 +11,9 @@ class CustomerTest < MiniTest::Test
                          "created_at"  => '1993-09-29 11:56:40 UTC',
                          "updated_at"  => '1993-09-29 11:56:40 UTC'
                         })
-      @files = {:items => './test/data/test_items_3.csv',
-                :merchants => './test/data/merchants_test_3.csv',
-                :invoices => './test/data/invoices_test.csv',
+      @files = {:items         => './test/data/test_items_3.csv',
+                :merchants     => './test/data/merchants_test_3.csv',
+                :invoices      => './test/data/invoices_test.csv',
                 :invoice_items => './test/data/invoice_items_test.csv',
                 :transactions  => './test/data/transactions_test.csv',
                 :customers     => './test/data/customers_test.csv'}

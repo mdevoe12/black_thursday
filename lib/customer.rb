@@ -15,7 +15,6 @@ class Customer
     @last_name  = params["last_name"]
     @created_at = Time.parse(params["created_at"])
     @updated_at = Time.parse(params["updated_at"])
-
   end
 
   def merchants

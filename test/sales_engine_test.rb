@@ -4,19 +4,19 @@ require_relative '../lib/sales_engine'
 class SalesEngineTest < MiniTest::Test
 
   def setup
-    @files = {:items => './test/data/items_test.csv',
-              :merchants => './test/data/merchants_test.csv',
-              :invoices => './test/data/invoices_test.csv',
+    @files = {:items         => './test/data/items_test.csv',
+              :merchants     => './test/data/merchants_test.csv',
+              :invoices      => './test/data/invoices_test.csv',
               :invoice_items => './test/data/invoice_items_test.csv',
               :transactions  => './test/data/transactions_test.csv',
               :customers     => './test/data/customers_test.csv'}
 
-    @files_2 = {:items => './test/data/items_test.csv',
-              :merchants => './test/data/merchants_test_3.csv',
-              :invoices => './test/data/invoices_test.csv',
-              :invoice_items => './test/data/invoice_items_test.csv',
-              :transactions  => './test/data/transactions_test.csv',
-              :customers     => './test/data/customers_test.csv'}
+    @files_2 = {:items         => './test/data/items_test.csv',
+                :merchants     => './test/data/merchants_test_3.csv',
+                :invoices      => './test/data/invoices_test.csv',
+                :invoice_items => './test/data/invoice_items_test.csv',
+                :transactions  => './test/data/transactions_test.csv',
+                :customers     => './test/data/customers_test.csv'}
   end
 
   def test_from_csv_creates_an_instance_of_sales_engine

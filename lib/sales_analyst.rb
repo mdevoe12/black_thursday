@@ -59,8 +59,8 @@ class SalesAnalyst
   end
 
   def average_invoices_per_merchant
-    mr = se.merchants.all
-    invr = se.invoices.all
+    mr      = se.merchants.all
+    invr    = se.invoices.all
     average = (invr.length.to_f)/(mr.length)
     average.round(2)
   end

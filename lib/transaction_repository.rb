@@ -7,7 +7,7 @@ class TransactionRepository
 
   def initialize(file_path, parent = nil)
     @parent = parent
-    @all = []
+    @all    = []
     populate_transactions(file_path)
   end
 

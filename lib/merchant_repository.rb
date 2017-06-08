@@ -6,7 +6,7 @@ class MerchantRepository
 
   def initialize(file_path, parent = nil)
     @parent = parent
-    @all = []
+    @all    = []
     populate_merchants(file_path)
   end
 

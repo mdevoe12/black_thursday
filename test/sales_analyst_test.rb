@@ -5,30 +5,30 @@ require_relative '../lib/sales_analyst'
 class SalesAnalystTest < MiniTest::Test
 
   def setup
-    @files = {:items => './test/data/items_test.csv',
-              :merchants => './test/data/merchants_test.csv',
-              :invoices => './test/data/invoices_test.csv',
+    @files = {:items         => './test/data/items_test.csv',
+              :merchants     => './test/data/merchants_test.csv',
+              :invoices      => './test/data/invoices_test.csv',
               :invoice_items => './test/data/invoice_items_test.csv',
               :transactions  => './test/data/transactions_test.csv',
               :customers     => './test/data/customers_test.csv'}
 
-    @files2 = {:items => './test/data/test_items_2.csv',
-              :merchants => './test/data/merchant_test_2.csv',
-              :invoices => './test/data/invoices_test.csv',
+    @files2 = {:items        => './test/data/test_items_2.csv',
+              :merchants     => './test/data/merchant_test_2.csv',
+              :invoices      => './test/data/invoices_test.csv',
               :invoice_items => './test/data/invoice_items_test.csv',
               :transactions  => './test/data/transactions_test.csv',
               :customers     => './test/data/customers_test.csv'}
 
-    @files3 = {:items => './test/data/test_items_3.csv',
-              :merchants => './test/data/merchants_test_3.csv',
-              :invoices => './test/data/invoices_test.csv',
+    @files3 = {:items        => './test/data/test_items_3.csv',
+              :merchants     => './test/data/merchants_test_3.csv',
+              :invoices      => './test/data/invoices_test.csv',
               :invoice_items => './test/data/invoice_items_test.csv',
               :transactions  => './test/data/transactions_test.csv',
               :customers     => './test/data/customers_test.csv'}
 
-    @files4 = {:items => './data/items.csv',
-              :merchants => './data/merchants.csv',
-              :invoices => './data/invoices.csv',
+    @files4 = {:items        => './data/items.csv',
+              :merchants     => './data/merchants.csv',
+              :invoices      => './data/invoices.csv',
               :invoice_items => './data/invoice_items.csv',
               :transactions  => './data/transactions.csv',
               :customers     => './data/customers.csv'}
