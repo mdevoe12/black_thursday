@@ -136,7 +136,7 @@ class SalesAnalyst
   def total_revenue_by_date(date)
     stripped = date.strftime('%Y%m%d')
     all_inv = se.invoices_by_date(stripped)
-    invoice_ids = all_inv.map  {|invoice| invoice.id }
+    invoice_ids = all_inv.map  {|invoice| invoice.id}
     all_items = invoice_ids.flat_map {|id| se.invoice_items_by_invoice_id(id)}
     all_items.reduce(0) {|acc, item| acc+= item.quantity * item.unit_price}
   end
@@ -144,7 +144,7 @@ class SalesAnalyst
   def top_revenue_earners(x = 20)
     revenue_per_merchant = creates_revenue_per_merchant_hash
     ascending_revenue = revenue_per_merchant.sort_by {|_k,v| v}.flatten
-    merchants = ascending_revenue.select.with_index {|item, idx| idx.even? }
+    merchants = ascending_revenue.select.with_index {|item, idx| idx.even?}
     descending_revenue = merchants.reverse
     descending_revenue[0..(x - 1)]
   end
@@ -190,7 +190,7 @@ class SalesAnalyst
 
   def standard_deviation(values)
     mean = values.reduce(:+)/values.length.to_f
-    mean_squared = values.reduce(0) { |acc, num| acc += ((num - mean)**2) }
+    mean_squared = values.reduce(0) {|acc, num| acc += ((num - mean)**2)}
     Math.sqrt(mean_squared / (values.length - 1)).round(2)
   end
 
@@ -212,5 +212,23 @@ class SalesAnalyst
     end
   end
 
-  
+  def most_sold_item_for_merchant(merchant_id)
+    item_quantity = create_item_ids_quantity_hash(merchant_id)
+    item_ids = item_quantity.keys
+    max_value = item_quantity.max_by {|_k, v| v}.last
+    max_keys = item_ids.select {|id| item_quantity[id] == max_value}
+    max_keys.map {|item_id| se.item_by_item_id(item_id)}
+  end
+
+  def create_item_ids_quantity_hash(merchant_id)
+    invoices = se.invoices_by_merchant_id(merchant_id)
+    success = invoices.select {|inv| inv.is_paid_in_full?}
+    inv_items = success.reduce(0) {|acc, invoice| se.invoice_items_by_invoice_id(invoice.id)}
+    item_ids = inv_items.reduce({}) do |items, inv_item|
+      items[inv_item.item_id] = 0 if items[inv_item.item_id].nil?
+      items[inv_item.item_id] += inv_item.quantity
+      items
+    end
+    item_ids
+  end
 end

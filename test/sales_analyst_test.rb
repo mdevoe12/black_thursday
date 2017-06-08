@@ -222,4 +222,12 @@ class SalesAnalystTest < MiniTest::Test
 
     assert_equal 1, actual.length
   end
+
+  def test_if_most_sold_item_returns_item
+    se = SalesEngine.from_csv(@files4)
+    sa = SalesAnalyst.new(se)
+    actual = sa.most_sold_item_for_merchant(12334105)
+
+    assert_equal 7, actual.length
+  end
 end

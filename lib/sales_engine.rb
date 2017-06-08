@@ -42,6 +42,10 @@ class SalesEngine
     @invoices.find_all_by_merchant_id(merchant_id)
   end
 
+  def item_by_item_id(item_id)
+    @items.find_by_id(item_id)
+  end
+
   def items_by_invoice_id(invoice_id)
     invoice_items = self.invoice_items_by_invoice_id(invoice_id)
     @items.find_items_by_invoice_id(invoice_items)

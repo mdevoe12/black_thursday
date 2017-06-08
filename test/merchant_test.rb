@@ -63,6 +63,7 @@ class MerchantTest < MiniTest::Test
     expected = [se.customers.all[0]]
 
     assert_equal expected, actual
-
   end
+
+
 end
