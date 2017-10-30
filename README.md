@@ -1,3 +1,4 @@
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/tmcjunkinmarquis/black_thursday.png?columns=all)](https://waffle.io/tmcjunkinmarquis/black_thursday?utm_source=badge)
 [![Stories in Ready](https://badge.waffle.io/samuelssnider/black_thursday.png?label=ready&title=Ready)](https://waffle.io/samuelssnider/black_thursday?utm_source=badge)
 [![Stories in Ready](https://badge.waffle.io/mdevoe12/black_thursday.png?label=ready&title=Ready)](https://waffle.io/mdevoe12/black_thursday?utm_source=badge)
 [![Stories in Ready](https://badge.waffle.io/somedayrainbows/black_thursday.png?label=ready&title=Ready)](https://waffle.io/somedayrainbows/black_thursday)
